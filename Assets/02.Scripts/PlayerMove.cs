@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public static PlayerMove instance;
+
     [Header("Player Control")]
     [SerializeField] private float basicMaxHp = 100f;
     [SerializeField] private float basicAttackPower = 100f;
+    [SerializeField] private float basicAttackSpeed = 10f;
     [SerializeField] private float basicMoveSpeed = 100f;
     
 
@@ -16,11 +19,21 @@ public class PlayerMove : MonoBehaviour
 
     private float _playerHp;
     private float _playerMoveSpeed;
+    public float _attackSpeed
+    {
+        get { return _attackSpeed; }
+        private set { _attackSpeed = value; }
+    }
     private bool playerLookToggle = false;
     private Vector3 playerMoveLook;
 
     private void Start()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
         _playerHp = basicMaxHp;
         _playerMoveSpeed = basicMoveSpeed;
     }
@@ -28,7 +41,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         PlayerMoveControl();
-        playerGun.transform.LookAt(PlayerLookSystem());
+        PlayerLookSystem();
     }
 
     private void PlayerMoveControl()
@@ -52,12 +65,23 @@ public class PlayerMove : MonoBehaviour
             playerMoveVector.x = 1;
         }
 
-        playerMoveLook = playerMoveVector;
+        if (Input.anyKey)
+        playerMoveLook = gameObject.transform.position + playerMoveVector;
 
         playerRb.velocity = playerMoveVector.normalized * _playerMoveSpeed;
     }
 
-    private Vector3 PlayerLookSystem()
+    private void MoveVectorSetting(Vector3 valuePos)
+    {
+        playerMoveLook = gameObject.transform.position + valuePos;
+    }
+
+    private void PlayerLookSystem()
+    {
+        playerGun.transform.right = (PlayerLookVector() - transform.position).normalized;
+    }
+
+    private Vector3 PlayerLookVector()
     {
         Vector3 playerLookVector;
 
@@ -96,7 +120,8 @@ public class PlayerMove : MonoBehaviour
         Vector3 result;
         Vector3 mousePos = Input.mousePosition;
 
-        result = Camera.main.ScreenToWorldPoint(mousePos);
+        result = mousePos;
+        playerMoveLook = result;
         return result;
     }
     /// <summary>
@@ -105,7 +130,6 @@ public class PlayerMove : MonoBehaviour
     /// 2순위 우클(토글)
     /// 3순위 키보드 (최근 이동한 방향을 바라봄)
     /// </summary>
-    /// <param name="damage"></param>
 
     public void PlayerDamaged(float damage)
     {
