@@ -17,8 +17,19 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Rigidbody2D playerRb;
     [SerializeField] private GameObject playerGun;
 
-    private float _playerHp;
-    private float _playerMoveSpeed;
+    private float PLAYERHP;
+    public float _playerHp
+    {
+        get { return PLAYERHP; }
+        private set { PLAYERHP = value; }
+    }
+
+    private float PLAYERMOVESPEED;
+    public float _playerMoveSpeed
+    {
+        get { return PLAYERMOVESPEED; }
+        private set { PLAYERMOVESPEED = value; }
+    }
 
     private float ATTACKSPEED;
     public float _attackSpeed
@@ -26,6 +37,7 @@ public class PlayerMove : MonoBehaviour
         get { return ATTACKSPEED; }
         private set { ATTACKSPEED = value; }
     }
+    
 
     private bool playerLookToggle = false;
     public Vector3 playerMoveLook;
@@ -39,7 +51,7 @@ public class PlayerMove : MonoBehaviour
 
         _playerHp = basicMaxHp;
         _playerMoveSpeed = basicMoveSpeed;
-        ATTACKSPEED = basicAttackSpeed;
+        _attackSpeed = basicAttackSpeed;
     }
 
     private void Start()
@@ -80,7 +92,6 @@ public class PlayerMove : MonoBehaviour
 
         PlayerLookSystem();
 
-
         playerRb.velocity = playerMoveVector.normalized * _playerMoveSpeed;
     }
 
@@ -92,39 +103,42 @@ public class PlayerMove : MonoBehaviour
 
     private void PlayerLookSystem()
     {
-        PlayerLookVector();
+        Vector3 playerLookVector = PlayerLookVector();
 
-        playerGun.transform.right = playerMoveLook;
+        playerGun.transform.right = playerLookVector;
     }
-    
 
-    private void PlayerLookVector()
+
+    private Vector3 PlayerLookVector()
     {
-        if (playerMoveLook != null)
+        Vector3 vectorValue;
+
+        if (Input.GetMouseButtonDown(1))
         {
-            if (Input.GetMouseButtonDown(1))
+            if (playerLookToggle == false)
             {
-                if (playerLookToggle == false)
-                {
-                    playerLookToggle = true;
-                }
-
-                else if (playerLookToggle == true)
-                {
-                    playerLookToggle = false;
-                }
+                playerLookToggle = true;
             }
 
-            if (Input.GetMouseButton(0))
+            else if (playerLookToggle == true)
             {
-                playerMoveLook = MouseLookMethod();
-            }
-
-            else if (playerLookToggle)
-            {
-                playerMoveLook = MouseLookMethod();
+                playerLookToggle = false;
             }
         }
+
+        if (Input.GetMouseButton(0))
+        {
+            vectorValue = MouseLookMethod();
+            return vectorValue;
+        }
+
+        else if (playerLookToggle)
+        {
+            vectorValue = MouseLookMethod();
+            return vectorValue;
+        }
+
+        return playerMoveLook;
     }
 
     private Vector3 MouseLookMethod()
