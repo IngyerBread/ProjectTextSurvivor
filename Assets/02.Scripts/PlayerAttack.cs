@@ -7,6 +7,8 @@ public class PlayerAttack : MonoBehaviour
     [Header("Connect Component")]
     [SerializeField] private GameObject playerBulletPrefab;
     [SerializeField] private Transform playerFirePos;
+    [SerializeField] private float bulletSpeed;
+    [SerializeField] private Transform canvas;
 
 
     private float attackTimer = 0f;
@@ -30,8 +32,9 @@ public class PlayerAttack : MonoBehaviour
 
     private void FireBullet()
     {
-        GameObject playerBulletGO = Instantiate(playerBulletPrefab);
+        GameObject playerBulletGO = Instantiate(playerBulletPrefab, canvas);
         playerBulletGO.transform.position = playerFirePos.transform.position;
+        playerBulletGO.GetComponent<Bullet>().BulletSetting(bulletSpeed, (playerFirePos.transform.position - gameObject.transform.position).normalized);
         //방향설정
     }
 }
