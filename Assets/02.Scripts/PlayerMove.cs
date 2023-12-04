@@ -8,7 +8,7 @@ public class PlayerMove : MonoBehaviour
 
     [Header("Player Control")]
     [SerializeField] private float basicMaxHp = 100f;
-    [SerializeField] private float basicAttackPower = 100f;
+    [SerializeField] private float basicAttackPower = 25f;
     [SerializeField] private float basicAttackSpeed = 1f;
     [SerializeField] private float basicMoveSpeed = 100f;
     
@@ -36,6 +36,12 @@ public class PlayerMove : MonoBehaviour
     {
         get { return ATTACKSPEED; }
         private set { ATTACKSPEED = value; }
+    }
+
+    public float _attackPower
+    {
+        get { return basicAttackPower; }
+        set { basicAttackPower = value; }
     }
     
 

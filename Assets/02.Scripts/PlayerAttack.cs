@@ -34,6 +34,6 @@ public class PlayerAttack : MonoBehaviour
     {
         GameObject playerBulletGO = Instantiate(playerBulletPrefab, canvas);
         playerBulletGO.transform.position = playerFirePos.transform.position;
-        playerBulletGO.GetComponent<Bullet>().BulletSetting(bulletSpeed, (playerFirePos.transform.position - gameObject.transform.position).normalized);
+        playerBulletGO.GetComponent<Bullet>().BulletSetting(bulletSpeed, (playerFirePos.transform.position - gameObject.transform.position).normalized, PlayerMove.instance._attackPower);
     }
 }
