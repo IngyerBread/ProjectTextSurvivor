@@ -319,10 +319,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4d857bae6863074ab2c1288815f89bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicMaxHp: 100
-  basicAttackPower: 25
-  basicAttackSpeed: 1
-  basicMoveSpeed: 100
+  battleEnterHp: 100
+  battleEnterMoveSpeed: 200
+  battleEnterAttackDamage: 25
+  battleEnterAttackSpeed: 1
+  battleEnterFireObjectSpeed: 600
   playerRb: {fileID: 444417903}
   playerGun: {fileID: 1930095326}
   playerMoveLook: {x: 0, y: 0, z: 0}
@@ -412,7 +413,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerBulletPrefab: {fileID: 4545891095666096687, guid: 45d819ad529f39746b294b81f1a96bf9, type: 3}
   playerFirePos: {fileID: 1052459435}
-  bulletSpeed: 200
   canvas: {fileID: 1437416250}
 --- !u!1 &705507993
 GameObject:
