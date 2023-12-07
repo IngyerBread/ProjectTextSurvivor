@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -163,10 +166,84 @@ public class PlayerMove : MonoBehaviour
         return resultValue;
     }
 
-    private void ADDBuff(float time, float buffValue)
-    {
+    List<float> buffs = new List<float>();
 
+    private void activeBuff(int buffCode)
+    {
+        switch (buffCode)
+        {
+            case 1000: // 예시
+                if (FindMAXBuff(buffs) != null)
+                {
+                    // 해당 버프 적용
+                }
+                else
+                {
+                    // 해당 버프 종료
+                }
+                break;
+        }
+            
+        
     }
+    private void ADDBuff(float time, float buffValue, int buffCode)
+    {
+        buffs.Add(buffValue);
+        activeBuff(buffCode);
+        // 지속시간 기다렸다가
+        buffs.Remove(buffValue);
+        activeBuff(buffCode);
+    }
+
+    // 버프코드를 키로 리스트를 밸류로 딕셔너리로 짜는건 어떨까
+    // 코루틴을 써 말아
+    // 버프마다 bool값을 받고 검사한다음 true면 지속시간만 갱신? false면 그냥 적용
+    // 버프코드는 체력 공격력 공격속도 처럼 어디로 들어가는 버프인지 디버프 버프인지도 여기서할까?
+    // 버프시 즉시 버프검사 돌리고 타임 기다리고 리스트 에서 제거 후 다시 돌리기
+
+    private float? FindMAXBuff(List<float> floatList)
+    {
+        if (floatList.Count >= 0) { return null; }
+
+        float? floatValue = null;
+
+        foreach (float buff in floatList)
+        {
+            if (floatValue == null)
+            {
+                floatValue = buff;
+            }
+
+            if (buff > floatValue)
+            {
+                floatValue = buff;
+            }
+        }
+
+        return floatValue;
+    }
+    private float FindMAXBuff1(List<float> floatList)
+    {
+        if (floatList.Count >= 0) { return 0f; }
+
+        float floatValue = 0f;
+
+        foreach (float buff in floatList)
+        {
+            if (floatValue == 0f)
+            {
+                floatValue = buff;
+            }
+
+            if (buff > floatValue)
+            {
+                floatValue = buff;
+            }
+        }
+
+        return floatValue;
+    }
+
     ///
     /// 실행 될때마다 배열 혹은 리스트를 검색해서 가장 높은수의 버프 적용
     /// 그리고 버프가 추가 될때 끝날 때 마다 실행한다면 괜찮지 않을까
