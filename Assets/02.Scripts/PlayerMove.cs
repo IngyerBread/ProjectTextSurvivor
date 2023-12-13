@@ -200,7 +200,7 @@ public class PlayerMove : MonoBehaviour
     // 버프마다 bool값을 받고 검사한다음 true면 지속시간만 갱신? false면 그냥 적용
     // 버프코드는 체력 공격력 공격속도 처럼 어디로 들어가는 버프인지 디버프 버프인지도 여기서할까?
     // 버프시 즉시 버프검사 돌리고 타임 기다리고 리스트 에서 제거 후 다시 돌리기
-
+      
     private float? FindMAXBuff(List<float> floatList)
     {
         if (floatList.Count >= 0) { return null; }

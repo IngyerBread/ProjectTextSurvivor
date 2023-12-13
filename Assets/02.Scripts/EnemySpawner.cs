@@ -8,9 +8,22 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform[] enemySpawnPos;
     [SerializeField] private float spawnTimer;
     [SerializeField] private int spawnCount;
+    [SerializeField] private float spawnCountPercent;
+    [SerializeField] private float spawnDistance;
+    [SerializeField] private int enemySpawnPosCount;
 
     private float currnetTime;
 
+
+    private void EnemySpawnPointSetting()
+    {
+        Vector3 spawnAnglePos = Vector3.zero;
+        float spawnAnglePlus = 360 / enemySpawnPosCount; // 디그리값
+
+        // 수직방향으로 생성
+        GameObject spawnPosObject = new GameObject("EnemySpawnPoint");
+        spawnPosObject.transform.position = gameObject.transform.position + 
+    }
     private void Start()
     {
         currnetTime = Time.time;
@@ -22,8 +35,8 @@ public class EnemySpawner : MonoBehaviour
         {
             currnetTime = Time.time;
 
-            int minSpawnCount = spawnCount - (spawnCount / 10);
-            int maxSpawnCount = spawnCount + (spawnCount / 10);
+            int minSpawnCount = spawnCount - Mathf.RoundToInt(spawnCount / spawnCountPercent);
+            int maxSpawnCount = spawnCount + Mathf.RoundToInt(spawnCount / spawnCountPercent);
             int spawnEnemyCount = Random.Range(minSpawnCount, (maxSpawnCount + 1));
 
             for (int i = 0; i < spawnEnemyCount; i++)
