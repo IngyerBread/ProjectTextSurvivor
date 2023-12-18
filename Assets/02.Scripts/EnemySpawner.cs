@@ -17,12 +17,17 @@ public class EnemySpawner : MonoBehaviour
 
     private void EnemySpawnPointSetting()
     {
-        Vector3 spawnAnglePos = Vector3.zero;
+        Vector3 spawnAnglePos = Vector3.up;
         float spawnAnglePlus = 360 / enemySpawnPosCount; // 디그리값
 
-        // 수직방향으로 생성
-        GameObject spawnPosObject = new GameObject("EnemySpawnPoint");
-        spawnPosObject.transform.position = gameObject.transform.position + 
+        for (int i = 0; i < enemySpawnPosCount; i++)
+        {
+            GameObject spawnPosObject = new GameObject("EnemySpawnPoint");
+            spawnPosObject.transform.position = gameObject.transform.position + (spawnAnglePos * spawnDistance);
+
+            Quaternion rotation = Quaternion.Euler(0, 0, i * spawnAnglePlus);
+            spawnAnglePos = rotation * Vector3.up;
+        }
     }
     private void Start()
     {
